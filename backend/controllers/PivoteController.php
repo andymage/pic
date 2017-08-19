@@ -3,18 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Horario;
-use common\models\Pic;
-use common\models\HorarioSearch;
+use common\models\Pivote;
+use common\models\PivoteSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
 
 /**
- * HorarioController implements the CRUD actions for Horario model.
+ * PivoteController implements the CRUD actions for Pivote model.
  */
-class HorarioController extends Controller
+class PivoteController extends Controller
 {
     /**
      * @inheritdoc
@@ -32,12 +30,12 @@ class HorarioController extends Controller
     }
 
     /**
-     * Lists all Horario models.
+     * Lists all Pivote models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new HorarioSearch();
+        $searchModel = new PivoteSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -47,7 +45,7 @@ class HorarioController extends Controller
     }
 
     /**
-     * Displays a single Horario model.
+     * Displays a single Pivote model.
      * @param integer $id
      * @return mixed
      */
@@ -59,56 +57,51 @@ class HorarioController extends Controller
     }
 
     /**
-     * Creates a new Horario model.
+     * Creates a new Pivote model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Horario();
-        $pic = self::idPic();
-        $tipo = Horario::$tipos;
-        $dias = Horario::$dias;
+        $model = new Pivote();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'pic' => $pic,
-                'tipo' => $tipo,
-                'dias' => $dias
             ]);
         }
     }
 
     /**
-     * Updates an existing Horario model.
+     * Updates an existing Pivote model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
-        $model = $this->findModel($id);
-        $pic = self::idPic();
-        $tipo = Horario::$tipos;
-        $dias = Horario::$dias;
+        $id = 1;
+        $model = Pivote::findOne($id);
+        if (empty($model)) {
+            $model = New Pivote;
+            $model->id = 1;
+            $model->id_pic = 0;
+            $model->save();
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'pic' => $pic,
-                'tipo' => $tipo,
-                'dias' => $dias
             ]);
         }
     }
 
     /**
-     * Deletes an existing Horario model.
+     * Deletes an existing Pivote model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -121,46 +114,46 @@ class HorarioController extends Controller
     }
 
     /**
-     * Finds the Horario model based on its primary key value.
+     * Finds the Pivote model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Horario the loaded model
+     * @return Pivote the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Horario::findOne($id)) !== null) {
+        if (($model = Pivote::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
-    protected function idPic(){
-        $array = Pic::find()->all();
-        $array = ArrayHelper::map($array, 'id', 'nombre');
-        return $array;
-    }
+    public function actionPeticion(){
+        $pivote = Pivote::findOne(1)->id;
+        $ch = curl_init();
+        // definimos la URL a la que hacemos la petición
+        curl_setopt($ch, CURLOPT_URL,"http://10.14.60.41/pic/backend/web/index.php/horario/ip?id=" . $pivote);
+        // indicamos el tipo de petición: POST
+        // definimos cada uno de los parámetros
+        //curl_setopt($ch, CURLOPT_POSTFIELDS, "postvar1=value1&postvar2=value2&postvar3=value3");
+         
+        // recibimos la respuesta y la guardamos en una variable
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $remote_server_output = curl_exec ($ch);
+        curl_close ($ch);
 
-    public function actionIp(){
-        $id = 1;
-        $busqueda = Horario::find()
-            ->where(['id_pic' => $id])
-            ->all();
-        $hora = date('H:i');
-        $url = '';
-        foreach ($busqueda as $key => $value) {
-            $horario = explode(':', $value->hora);
-            $horario = $horario[0] . ':' . $horario[1];
-            if ($hora == $horario) {
-                if ($value->tipo == Horario::ENCENDIDO) {
-                    $url = $value->idPic->ip_encendido;
-                }
-                else{
-                    $url = $value->idPic->ip_apagado;
-                }
-            }
-        }
-        echo $url;
+        $ch = curl_init();
+        // definimos la URL a la que hacemos la petición
+        curl_setopt($ch, CURLOPT_URL,$remote_server_output);
+        // indicamos el tipo de petición: POST
+        // definimos cada uno de los parámetros
+        //curl_setopt($ch, CURLOPT_POSTFIELDS, "postvar1=value1&postvar2=value2&postvar3=value3");
+         
+        // recibimos la respuesta y la guardamos en una variable
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $remote_server_output = curl_exec ($ch);
+        curl_close ($ch);
+        // cerramos la sesión cURL
     }
 }
