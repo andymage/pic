@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\horario;
+use common\models\Horario;
 
 /**
  * HorarioSearch represents the model behind the search form about `common\models\horario`.
  */
-class HorarioSearch extends horario
+class HorarioSearch extends Horario
 {
     /**
      * @inheritdoc
