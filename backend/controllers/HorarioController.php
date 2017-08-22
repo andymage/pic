@@ -70,8 +70,17 @@ class HorarioController extends Controller
         $tipo = Horario::$tipos;
         $dias = Horario::$dias;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (Yii::$app->request->isPost) {
+            $dias = Yii::$app->request->post('Horario')['dia'];
+            foreach ($dias as $key => $value) {
+                $model = new Horario();
+                $model->id_pic = Yii::$app->request->post('Horario')['id_pic'];
+                $model->dia = $value;
+                $model->hora = Yii::$app->request->post('Horario')['hora'];
+                $model->tipo = Yii::$app->request->post('Horario')['tipo'];
+                $model->save();
+            }
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,

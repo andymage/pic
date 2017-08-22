@@ -25,10 +25,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'id_pic',
-            'dia',
+            [
+                'header' => 'Nombre Computadora',
+                'value' => 'idPic.nombre',
+
+            ],
+            [
+                'header' => 'Días',
+                'value' => 'nombredias'
+            ],
             'hora',
-            'tipo',
+            'tipos',
             // 'fecha_alta',
             // 'fecha_actualizacion',
 

@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
 use kartik\time\TimePicker;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\horario */
@@ -18,9 +19,23 @@ use kartik\time\TimePicker;
         'prompt' => 'Selecciona'
     ]) ?>
 
-    <?= $form->field($model, 'dia')->dropdownlist($dias,[
+   
+
+    <?
+    if ($model->isNewRecord) {
+        echo $form->field($model, 'dia')->widget(Select2::classname(), [
+        'data' => $dias,
+        'options' => ['placeholder' => 'Selecciona los días ...', 'multiple' => true],
+        
+        ])->label('Selecciona los Días');
+        # code...
+    }
+    else{
+         echo $form->field($model, 'dia')->dropdownlist($dias,[
         'prompt' => 'Selecciona'
-    ]) ?>
+    ]);
+    }
+ ?>
 
     <?= $form->field($model, 'hora')->widget(TimePicker::className(), [
         'pluginOptions' => [

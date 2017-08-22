@@ -90,4 +90,17 @@ class Horario extends ActiveRecord
     {
         return $this->hasOne(Pic::className(), ['id' => 'id_pic']);
     }
+
+    public function getNombredias(){
+        return self::$dias[$this->dia];
+    }
+
+    public function getTipos(){
+        if ($this->tipo == 1) {
+            return "Encendido";
+        }
+        else{
+            return "Apagado";
+        }
+    }
 }

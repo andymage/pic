@@ -51,8 +51,8 @@ AppAsset::register($this);
             . '</li>';
     }
     $menuItems[] = ['label' => 'Horario', 'url' => ['/horario']];
-    $menuItems[] = ['label' => 'Pic', 'url' => ['/pic']];
-    $menuItems[] = ['label' => 'Asignar Pic a Máquina', 'url' => ['/pivote/update']];
+    $menuItems[] = ['label' => 'Computadora', 'url' => ['/pic']];
+    $menuItems[] = ['label' => 'Asignar Id a Computadora', 'url' => ['/pivote/update']];
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
