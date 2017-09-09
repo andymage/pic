@@ -15,12 +15,15 @@ use kartik\select2\Select2;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <div class="col-md-6">
+
     <?= $form->field($model, 'id_pic')->dropdownlist($pic,[
         'prompt' => 'Selecciona'
     ]) ?>
-
+</div>
    
-
+    <div class="col-md-6">
+        
     <?
     if ($model->isNewRecord) {
         echo $form->field($model, 'dia')->widget(Select2::classname(), [
@@ -36,18 +39,26 @@ use kartik\select2\Select2;
     ]);
     }
  ?>
+    </div>
+    <div class="col-md-6">
 
     <?= $form->field($model, 'hora')->widget(TimePicker::className(), [
         'pluginOptions' => [
             'showMeridian' => false,
-            'format' => 'HH:ii'
+            'format' => 'HH:ii',
+        ],
+        'options' => [
+            'readonly' => true,
         ]
     ]) ?>
+        </div>
+    <div class="col-md-6">
 
     <?= $form->field($model, 'tipo')->dropdownlist($tipo,['prompt' => 'Selecciona']) ?>
+    </div>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

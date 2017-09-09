@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\PicSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Pics';
+$this->title = 'Computadora';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pic-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Pic', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Computadora', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
